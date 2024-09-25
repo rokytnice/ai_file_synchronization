@@ -7,6 +7,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MarkupHandlerTest
 {
 
+    MarkupHandler markupHandler = new MarkupHandler();
+
     // Beispiel-Markup-Text mit Java-Code
     String markupText = "Der folgende Code ist ein Beispiel für eine JUnit Test Klasse in Java:\n\n"
         + "```java\n"
@@ -32,23 +34,24 @@ public class MarkupHandlerTest
             + "    }\n"
             + "}\n";
 
-        String extractedCode = MarkupHandler.extractJavaCode(markupText);
+
+        String extractedCode = markupHandler.extractJavaCode(markupText);
         assertEquals(expectedCode, extractedCode, "Der Java-Code wurde nicht korrekt extrahiert.");
     }
 
     // Test für die Methode zur Extraktion des Paketnamens
     @Test
     public void testExtractPackageName() {
-        String extractedCode = MarkupHandler.extractJavaCode(markupText);
-        String packageName = MarkupHandler.extractPackageName(extractedCode);
+        String extractedCode = markupHandler.extractJavaCode(markupText);
+        String packageName = markupHandler.extractPackageName(extractedCode);
         assertEquals("com.example.tests", packageName, "Der Paketname wurde nicht korrekt extrahiert.");
     }
 
     // Test für die Methode zur Extraktion des Klassennamens
     @Test
     public void testExtractClassName() {
-        String extractedCode = MarkupHandler.extractJavaCode(markupText);
-        String className = MarkupHandler.extractClassName(extractedCode);
+        String extractedCode = markupHandler.extractJavaCode(markupText);
+        String className = markupHandler.extractClassName(extractedCode);
         assertEquals("TestExample", className, "Der Klassenname wurde nicht korrekt extrahiert.");
     }
 
@@ -58,7 +61,7 @@ public class MarkupHandlerTest
         String packageName = "com.example.tests";
         String className = "TestExample";
         String expectedPath = "src/test/java/com/example/tests/TestExample.java";
-        String filePath = MarkupHandler.generateFilePath(packageName, className);
+        String filePath = markupHandler.generateFilePath(packageName, className);
         assertEquals(expectedPath, filePath, "Der Dateipfad wurde nicht korrekt generiert.");
     }
 
@@ -75,10 +78,10 @@ public class MarkupHandlerTest
             + "}\n";
         String packageName = "com.example.tests";
         String className = "TestExample";
-        String filePath = MarkupHandler.generateFilePath(packageName, className);
+        String filePath = markupHandler.generateFilePath(packageName, className);
 
         // Speichere den Code in die Datei
-        MarkupHandler.saveCodeToFile(code, filePath);
+        markupHandler.saveCodeToFile(code, filePath);
 
         // Überprüfe, ob die Datei existiert
         File file = new File(filePath);

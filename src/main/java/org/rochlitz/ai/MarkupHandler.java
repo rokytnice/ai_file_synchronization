@@ -13,7 +13,16 @@ public class MarkupHandler
 
     // Basisverzeichnis, wo die Dateien gespeichert werden sollen
 //    public static final String BASE_DIRECTORY = "src/main/java"; // Beispielpfad, anpassen nach Bedarf
-    public static final String BASE_DIRECTORY = "/home/andre/IdeaProjects/untitled/src/test/java"; // Beispielpfad, anpassen nach Bedarf
+    public String baseDirectory ; // Beispielpfad, anpassen nach Bedarf
+    public String contextPath = "src/test/java";//file separator
+
+    public MarkupHandler() {
+
+
+        baseDirectory = System.getProperty("user.dir")+File.separator + contextPath;
+        System.out.println("Das aktuelle Projekt befindet sich in: " + baseDirectory);
+
+    }
 
     public Optional<String> extractSourceCodeToFile(String markupText) {
 
@@ -23,7 +32,7 @@ public class MarkupHandler
         return saveSourceCode(extractedCode);
     }
 
-    private static Optional<String> saveSourceCode(String extractedCode)
+    private   Optional<String> saveSourceCode(String extractedCode)
     {
         if (extractedCode != null) {
             // Den Package-Namen extrahieren
@@ -49,7 +58,7 @@ public class MarkupHandler
     }
 
     // Methode, um Java-Code aus dem Markup-Text zu extrahieren
-    public static String extractJavaCode(String markupText) {
+    public   String extractJavaCode(String markupText) {
         // Regex, um den Code innerhalb von ```java``` zu finden
         Pattern pattern = Pattern.compile("```java\\n([\\s\\S]*?)```");
         Matcher matcher = pattern.matcher(markupText);
@@ -60,7 +69,7 @@ public class MarkupHandler
     }
 
     // Methode, um den Package-Namen aus dem Quellcode zu extrahieren
-    public static String extractPackageName(String code) {
+    public   String extractPackageName(String code) {
         // Regex, um den Package-Namen zu finden (package <packageName>;)
         Pattern pattern = Pattern.compile("package\\s+([\\w\\.]+);");
         Matcher matcher = pattern.matcher(code);
@@ -71,7 +80,7 @@ public class MarkupHandler
     }
 
     // Methode, um den Klassennamen aus dem Quellcode zu extrahieren
-    public static String extractClassName(String code) {
+    public   String extractClassName(String code) {
         // Regex, um den Klassennamen zu finden (public class <ClassName>)
         Pattern pattern = Pattern.compile("public class\\s+(\\w+)");
         Matcher matcher = pattern.matcher(code);
@@ -82,18 +91,18 @@ public class MarkupHandler
     }
 
     // Methode, um den vollständigen Dateipfad basierend auf dem Package-Namen und dem Klassennamen zu generieren
-    public static String generateFilePath(String packageName, String className) {
+    public   String generateFilePath(String packageName, String className) {
         // Wenn ein Package vorhanden ist, ersetze Punkte durch Verzeichnistrenner
         if (packageName != null) {
             String packagePath = packageName.replace('.', File.separatorChar);
-            return BASE_DIRECTORY + File.separator + packagePath + File.separator + className + ".java";
+            return baseDirectory + File.separator + packagePath + File.separator + className + ".java";
         }
         // Falls kein Package angegeben ist, speichere die Datei im Basisverzeichnis
-        return BASE_DIRECTORY + File.separator + className + ".java";
+        return baseDirectory + File.separator + className + ".java";
     }
 
     // Methode, um den extrahierten Code in eine Datei zu speichern
-    public static void saveCodeToFile(String code, String filePath) {
+    public   void saveCodeToFile(String code, String filePath) {
         try {
             // Erzeuge das Verzeichnis, falls es noch nicht existiert
             File file = new File(filePath);

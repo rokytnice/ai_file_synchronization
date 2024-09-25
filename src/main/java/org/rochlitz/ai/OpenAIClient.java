@@ -24,6 +24,10 @@ public class OpenAIClient {
 
     public static void requestAiImplementation(String requestBody) throws IOException {
         try {
+            if (API_KEY == null) {
+                log.error("API  key is missing ");
+                return;
+            }
             // Lese die Historie aus der Datei und füge die neue Nachricht hinzu
             JSONArray conversationHistory = readHistoryFromFile();
             conversationHistory.put(new JSONObject().put("role", "user").put("content", requestBody));
@@ -50,6 +54,7 @@ public class OpenAIClient {
                 System.out.println("Fehler: " + response.code() + " - " + response.message());
             }
         } catch (JSONException e) {
+            log.error("JSONException", e);
             throw new RuntimeException(e);
         } catch (Exception e) {
             log.error("", e);
