@@ -1,0 +1,60 @@
+
+plugins {
+    id 'java'
+    id 'groovy'
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven {
+        url = uri("https://repo.maven.apache.org/maven2/")
+    }
+    gradlePluginPortal()
+}
+
+
+
+group = 'org.rochlitz'
+version = '1.0-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+    sourceCompatibility = '21'
+    targetCompatibility = '21'
+}
+
+compileJava {
+    options.release = 21
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+dependencies {
+//    implementation 'com.theokanning.openai-gpt3-java:{api|client|service}:version'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.3'
+    implementation 'org.json:json:20210307'
+//    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation "org.junit.jupiter:junit-jupiter:5.8.1"
+
+    compileOnly 'org.projectlombok:lombok:1.18.34'
+    annotationProcessor 'org.projectlombok:lombok:1.18.34'
+    implementation 'ch.qos.logback:logback-classic:1.5.8'
+
+
+    // https://mvnrepository.com/artifact/org.mockito/mockito-all
+    testImplementation 'org.mockito:mockito-all:1.10.19'
+
+}
+
+test {
+    useJUnitPlatform()
+}
+
+
